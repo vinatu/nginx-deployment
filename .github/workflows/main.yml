@@ -18,21 +18,27 @@ jobs:
       - name: Install Syft
         run: |
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh
+          # Add Syft to PATH
+          echo "::add-path::$(pwd)/.local/bin"
 
       # Step 3: Generate SBOM
       - name: Generate SBOM
         run: |
-          chmod +x ./scripts/generate-sbom.sh
+          chmod +x ./scripts/generate-sbom.sh  # Ensure the script is executable
           ./scripts/generate-sbom.sh
 
       # Step 4: Commit and push the SBOM to the repository
       - name: Commit and push SBOM
         run: |
-          git config --global user.name "vinatu"
-          git config --global user.email "l00179000@atu.ie"
-          git add sbom.json
-          git commit -m "Add generated SBOM"
-          git push origin main
+          if [ -f sbom.json ]; then
+            git config --global user.name "vinatu"
+            git config --global user.email "l00179000@atu.ie"
+            git add sbom.json
+            git commit -m "Add generated SBOM"
+            git push origin main
+          else
+            echo "SBOM file not found. Skipping commit."
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
