@@ -10,11 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository with persisted credentials
+      # Step 1: Checkout the repository with the PAT
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          persist-credentials: false  # Disable default token
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # Use the PAT
 
       # Step 2: Install Syft
