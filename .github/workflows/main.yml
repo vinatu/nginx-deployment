@@ -3,7 +3,7 @@ name: Deploy Nginx with SBOM Generation
 on:
   push:
     branches:
-      - master  # Trigger the workflow on pushes to the main branch
+      - main  # Trigger the workflow on pushes to the main branch
 
 jobs:
   build:
@@ -32,7 +32,7 @@ jobs:
           git config --global user.email "l00179000@atu.ie"
           git add sbom.json
           git commit -m "Add generated SBOM"
-          git push origin master
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
