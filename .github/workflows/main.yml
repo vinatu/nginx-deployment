@@ -10,9 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
+      # Step 1: Checkout the repository with persisted credentials
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          persist-credentials: false  # Disable default token
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # Use the PAT
 
       # Step 2: Install Syft
       - name: Install Syft
@@ -40,7 +43,7 @@ jobs:
             echo "SBOM file not found. Skipping commit."
           fi
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       # Step 5: Install Argo CD CLI
       - name: Install Argo CD CLI
@@ -53,4 +56,3 @@ jobs:
         run: |
           argocd login ${{ secrets.ARGOCD_SERVER }} --username ${{ secrets.ARGOCD_USERNAME }} --password ${{ secrets.ARGOCD_PASSWORD }} --insecure
           argocd app sync nginx-app
-
