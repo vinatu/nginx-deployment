@@ -35,6 +35,8 @@ jobs:
           if [ -f sbom.json ]; then
             git config --global user.name "vinatu"
             git config --global user.email "l00179000@atu.ie"
+            git config pull.rebase false  # Set pull strategy to merge
+            git pull origin main  # Pull the latest changes
             git add sbom.json
             git commit -m "Add generated SBOM"
             git push origin main
