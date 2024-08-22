@@ -18,8 +18,8 @@ jobs:
       - name: Install Syft
         run: |
           curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh
-          # Add Syft to PATH
-          echo "::add-path::$(pwd)/.local/bin"
+          # Add Syft to PATH using Environment Files
+          echo "/home/runner/work/nginx-deployment/nginx-deployment/bin" >> $GITHUB_PATH
 
       # Step 3: Generate SBOM
       - name: Generate SBOM
